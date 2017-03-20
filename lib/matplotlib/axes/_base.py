@@ -3939,6 +3939,9 @@ class _AxesBase(martist.Artist):
         self.yaxis.tick_left()
         ax2.xaxis.set_visible(False)
         ax2.patch.set_visible(False)
+        ax2.ignore_existing_data_limits = self.ignore_existing_data_limits
+        ax2.dataLim._points[:, 0] = self.dataLim._points[:, 0]
+        ax2.dataLim._minpos[0] = self.dataLim._minpos[0]
         return ax2
 
     def twiny(self):
