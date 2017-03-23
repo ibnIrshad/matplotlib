@@ -5009,6 +5009,18 @@ def test_datetime_axvline_same_axes():
     assert (axs[0].get_ylim() == axs[1].get_ylim())
 
 
+def test_twinx_axis_limits():
+    # to make sure axvspan set limits are tranferred to twin axes
+    fig, ax = plt.subplots()
+
+    ax.axvspan(1,2)
+
+    bx = ax.twinx()
+    assert (ax.dataLim._points[0, 0] == bx.dataLim._points[0, 0])
+    assert (ax.dataLim._points[1, 0] == bx.dataLim._points[1, 0])
+    assert (ax.dataLim._minpos[0] == bx.dataLim._minpos[0])
+
+
 def test_invalid_axis_limits():
     plt.plot([0, 1], [0, 1])
     with pytest.raises(ValueError):
