@@ -2262,14 +2262,14 @@ class _AxesBase(martist.Artist):
             # ignore non-finite data limits if good limits exist
             finite_dl = [d for d in dl if np.isfinite(d).all()]
             if len(finite_dl):
-               # if infinite datalimits were ignore when only
-               # one axis had infinite datalimits restore them
-               x_finite = [d for d in dl if (np.isfinite(d.intervalx).all() and (d not in finite_dl))]
-	       y_finite = [d for d in dl if (np.isfinite(d.intervaly).all() and (d not in finite_dl))]
-               
-               dl = finite_dl
-               dl.extend(x_finite)
-               dl.extend(y_finite)
+                # if infinite datalimits were ignore when only
+                # one axis had infinite datalimits restore them
+                x_finite = [d for d in dl if (np.isfinite(d.intervalx).all() and (d not in finite_dl))]
+                y_finite = [d for d in dl if (np.isfinite(d.intervaly).all() and (d not in finite_dl))]
+
+                dl = finite_dl
+                dl.extend(x_finite)
+                dl.extend(y_finite)
 
             bb = mtransforms.BboxBase.union(dl)
             x0, x1 = getattr(bb, interval)
