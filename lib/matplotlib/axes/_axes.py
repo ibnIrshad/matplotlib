@@ -40,7 +40,6 @@ import matplotlib.text as mtext
 import matplotlib.ticker as mticker
 import matplotlib.transforms as mtransforms
 import matplotlib.tri as mtri
-import matplotlib.transforms as mtrans
 from matplotlib.container import BarContainer, ErrorbarContainer, StemContainer
 from matplotlib.axes._base import _AxesBase
 from matplotlib.axes._base import _process_plot_format
@@ -508,7 +507,7 @@ or tuple of floats
         Examples
         --------
 
-        .. plot:: mpl_examples/api/legend_demo.py
+        .. plot:: mpl_examples/api/plot_legend.py
 
         """
         handlers = kwargs.get('handler_map', {}) or {}
@@ -566,8 +565,7 @@ or tuple of floats
         self.legend_._remove_method = lambda h: setattr(self, 'legend_', None)
         return self.legend_
 
-    def text(self, x, y, s, fontdict=None,
-             withdash=False, **kwargs):
+    def text(self, x, y, s, fontdict=None, withdash=False, **kwargs):
         """
         Add text to the axes.
 
@@ -922,8 +920,8 @@ or tuple of floats
         self.autoscale_view(scaley=False)
         return p
 
-    @_preprocess_data(replace_names=['y', 'xmin', 'xmax', 'colors'],
-                      label_namer='y')
+    @_preprocess_data(replace_names=["y", "xmin", "xmax", "colors"],
+                      label_namer="y")
     def hlines(self, y, xmin, xmax, colors='k', linestyles='solid',
                label='', **kwargs):
         """
@@ -1002,8 +1000,8 @@ or tuple of floats
 
         return lines
 
-    @_preprocess_data(replace_names=['x', 'ymin', 'ymax', 'colors'],
-                      label_namer='x')
+    @_preprocess_data(replace_names=["x", "ymin", "ymax", "colors"],
+                      label_namer="x")
     def vlines(self, x, ymin, ymax, colors='k', linestyles='solid',
                label='', **kwargs):
         """
@@ -1085,9 +1083,9 @@ or tuple of floats
         return lines
 
     @_preprocess_data(replace_names=["positions", "lineoffsets",
-                                        "linelengths", "linewidths",
-                                        "colors", "linestyles"],
-                         label_namer=None)
+                                     "linelengths", "linewidths",
+                                     "colors", "linestyles"],
+                      label_namer=None)
     @docstring.dedent_interpd
     def eventplot(self, positions, orientation='horizontal', lineoffsets=1,
                   linelengths=1, linewidths=None, colors=None,
@@ -1266,8 +1264,8 @@ or tuple of floats
     # ### Basic plotting
     # The label_naming happens in `matplotlib.axes._base._plot_args`
     @_preprocess_data(replace_names=["x", "y"],
-                         positional_parameter_names=_plot_args_replacer,
-                         label_namer=None)
+                      positional_parameter_names=_plot_args_replacer,
+                      label_namer=None)
     @docstring.dedent_interpd
     def plot(self, *args, **kwargs):
         """
@@ -1860,10 +1858,10 @@ or tuple of floats
         return self.plot(x, y, *args, **kwargs)
 
     @_preprocess_data(replace_names=["left", "height", "width", "bottom",
-                                        "color", "edgecolor", "linewidth",
-                                        "tick_label", "xerr", "yerr",
-                                        "ecolor"],
-                         label_namer=None)
+                                     "color", "edgecolor", "linewidth",
+                                     "tick_label", "xerr", "yerr",
+                                     "ecolor"],
+                      label_namer=None)
     @docstring.dedent_interpd
     def bar(self, left, height, width=0.8, bottom=None, **kwargs):
         """
@@ -2471,8 +2469,8 @@ or tuple of floats
 
         return stem_container
 
-    @_preprocess_data(replace_names=['x', 'explode', 'labels', 'colors'],
-                         label_namer=None)
+    @_preprocess_data(replace_names=["x", "explode", "labels", "colors"],
+                      label_namer=None)
     def pie(self, x, explode=None, labels=None, colors=None,
             autopct=None, pctdistance=0.6, shadow=False, labeldistance=1.1,
             startangle=None, radius=None, counterclock=True,
@@ -2482,95 +2480,98 @@ or tuple of floats
         Plot a pie chart.
 
         Make a pie chart of array *x*.  The fractional area of each
-        wedge is given by x/sum(x).  If sum(x) <= 1, then the values
-        of x give the fractional area directly and the array will not
-        be normalized.  The wedges are plotted counterclockwise,
-        by default starting from the x-axis.
+        wedge is given by ``x/sum(x)``.  If ``sum(x) <= 1``, then the
+        values of x give the fractional area directly and the array
+        will not be normalized.  The wedges are plotted
+        counterclockwise, by default starting from the x-axis.
 
-        Keyword arguments:
+        Parameters
+        ----------
+        x : array-like
+            The input array used to make the pie chart.
 
-          *explode*: [ *None* | len(x) sequence ]
+        explode : array-like, optional, default: None
             If not *None*, is a ``len(x)`` array which specifies the
             fraction of the radius with which to offset each wedge.
 
-          *colors*: [ *None* | color sequence ]
+        labels : list, optional, default: None
+            A sequence of strings providing the labels for each wedge
+
+        colors : array-like, optional, default: None
             A sequence of matplotlib color args through which the pie chart
             will cycle.  If `None`, will use the colors in the currently
             active cycle.
 
-          *labels*: [ *None* | len(x) sequence of strings ]
-            A sequence of strings providing the labels for each wedge
-
-          *autopct*: [ *None* | format string | format function ]
+        autopct : None (default), string, or function, optional
             If not *None*, is a string or function used to label the wedges
             with their numeric value.  The label will be placed inside the
             wedge.  If it is a format string, the label will be ``fmt%pct``.
             If it is a function, it will be called.
 
-          *pctdistance*: scalar
+        pctdistance : float, optional, default: 0.6
             The ratio between the center of each pie slice and the
             start of the text generated by *autopct*.  Ignored if
-            *autopct* is *None*; default is 0.6.
+            *autopct* is *None*.
 
-          *labeldistance*: scalar
-            The radial distance at which the pie labels are drawn
-
-          *shadow*: [ *False* | *True* ]
+        shadow : bool, optional, default: False
             Draw a shadow beneath the pie.
 
-          *startangle*: [ *None* | Offset angle ]
+        labeldistance : float, optional, default: 1.1
+            The radial distance at which the pie labels are drawn
+
+        startangle : float, optional, default: None
             If not *None*, rotates the start of the pie chart by *angle*
             degrees counterclockwise from the x-axis.
 
-          *radius*: [ *None* | scalar ]
-          The radius of the pie, if *radius* is *None* it will be set to 1.
+        radius : float, optional, default: None
+            The radius of the pie, if *radius* is *None* it will be set to 1.
 
-          *counterclock*: [ *False* | *True* ]
+        counterclock : bool, optional, default: True
             Specify fractions direction, clockwise or counterclockwise.
 
-          *wedgeprops*: [ *None* | dict of key value pairs ]
+        wedgeprops : dict, optional, default: None
             Dict of arguments passed to the wedge objects making the pie.
-            For example, you can pass in wedgeprops = { 'linewidth' : 3 }
+            For example, you can pass in``wedgeprops = {'linewidth': 3}``
             to set the width of the wedge border lines equal to 3.
             For more details, look at the doc/arguments of the wedge object.
-            By default `clip_on=False`.
+            By default ``clip_on=False``.
 
-          *textprops*: [ *None* | dict of key value pairs ]
+        textprops : dict, optional, default: None
             Dict of arguments to pass to the text objects.
 
-          *center*: [ (0,0) | sequence of 2 scalars ]
-          Center position of the chart.
+        center :  list of float, optional, default: (0, 0)
+            Center position of the chart. Takes value (0, 0) or is a
+            sequence of 2 scalars.
 
-          *frame*: [ *False* | *True* ]
-            Plot axes frame with the chart.
+        frame : bool, optional, default: False
+            Plot axes frame with the chart if true.
 
-          *rotatelabels*: [ *False* | *True* ]
-            Rotate each label to the angle of the corresponding slice.
+        rotatelabels : bool, optional, default: False
+            Rotate each label to the angle of the corresponding slice if true.
 
+        Returns
+        -------
+        patches : list
+            A sequence of :class:`matplotlib.patches.Wedge` instances
+
+        texts : list
+            A is a list of the label :class:`matplotlib.text.Text` instances.
+
+        autotexts : list
+            A is a list of :class:`~matplotlib.text.Text` instances for the
+            numeric labels. Is returned only if parameter *autopct* is
+            not *None*.
+
+        Notes
+        -----
         The pie chart will probably look best if the figure and axes are
-        square, or the Axes aspect is equal.  e.g.::
+        square, or the Axes aspect is equal.
 
-          figure(figsize=(8,8))
-          ax = axes([0.1, 0.1, 0.8, 0.8])
+        Examples
+        --------
+        .. plot:: mpl_examples/pie_and_polar_charts/pie_demo_features.py
 
-        or::
 
-          axes(aspect=1)
-
-        Return value:
-          If *autopct* is *None*, return the tuple (*patches*, *texts*):
-
-            - *patches* is a sequence of
-              :class:`matplotlib.patches.Wedge` instances
-
-            - *texts* is a list of the label
-              :class:`matplotlib.text.Text` instances.
-
-          If *autopct* is not *None*, return the tuple (*patches*,
-          *texts*, *autotexts*), where *patches* and *texts* are as
-          above, and *autotexts* is a list of
-          :class:`~matplotlib.text.Text` instances for the numeric
-          labels.
         """
 
         x = np.array(x, np.float32)
@@ -2626,9 +2627,9 @@ or tuple of floats
             y += expl * math.sin(thetam)
 
             w = mpatches.Wedge((x, y), radius, 360. * min(theta1, theta2),
-                            360. * max(theta1, theta2),
-                            facecolor=get_next_color(),
-                            **wedgeprops)
+                               360. * max(theta1, theta2),
+                               facecolor=get_next_color(),
+                               **wedgeprops)
             slices.append(w)
             self.add_patch(w)
             w.set_label(label)
@@ -2685,9 +2686,9 @@ or tuple of floats
             self.set_frame_on(False)
 
             self.set_xlim((-1.25 + center[0],
-                            1.25 + center[0]))
+                           1.25 + center[0]))
             self.set_ylim((-1.25 + center[1],
-                            1.25 + center[1]))
+                           1.25 + center[1]))
             self.set_xticks([])
             self.set_yticks([])
 
@@ -2697,7 +2698,7 @@ or tuple of floats
             return slices, texts, autotexts
 
     @_preprocess_data(replace_names=["x", "y", "xerr", "yerr"],
-                         label_namer="y")
+                      label_namer="y")
     @docstring.dedent_interpd
     def errorbar(self, x, y, yerr=None, xerr=None,
                  fmt='', ecolor=None, elinewidth=None, capsize=None,
@@ -3810,9 +3811,9 @@ or tuple of floats
                     medians=medians, fliers=fliers, means=means)
 
     @_preprocess_data(replace_names=["x", "y", "s", "linewidths",
-                                        "edgecolors", "c", 'facecolor',
-                                        'facecolors', 'color'],
-                         label_namer="y")
+                                     "edgecolors", "c", "facecolor",
+                                     "facecolors", "color"],
+                      label_namer="y")
     def scatter(self, x, y, s=None, c=None, marker=None, cmap=None, norm=None,
                 vmin=None, vmax=None, alpha=None, linewidths=None,
                 verts=None, edgecolors=None,
@@ -4041,7 +4042,7 @@ or tuple of floats
             edgecolors = 'face'
             linewidths = rcParams['lines.linewidth']
 
-        offsets = np.dstack((x, y))
+        offsets = np.column_stack([x, y])
 
         collection = mcoll.PathCollection(
                 (path,), scales,
@@ -4253,8 +4254,8 @@ or tuple of floats
             ymin, ymax = (np.min(y), np.max(y)) if len(y) else (0, 1)
 
             # to avoid issues with singular data, expand the min/max pairs
-            xmin, xmax = mtrans.nonsingular(xmin, xmax, expander=0.1)
-            ymin, ymax = mtrans.nonsingular(ymin, ymax, expander=0.1)
+            xmin, xmax = mtransforms.nonsingular(xmin, xmax, expander=0.1)
+            ymin, ymax = mtransforms.nonsingular(ymin, ymax, expander=0.1)
 
         # In the x-direction, the hexagons exactly cover the region from
         # xmin to xmax. Need some padding to avoid roundoff errors.
@@ -4616,7 +4617,7 @@ or tuple of floats
     stackplot.__doc__ = mstack.stackplot.__doc__
 
     @_preprocess_data(replace_names=["x", "y", "u", "v", "start_points"],
-                         label_namer=None)
+                      label_namer=None)
     def streamplot(self, x, y, u, v, density=1, linewidth=None, color=None,
                    cmap=None, norm=None, arrowsize=1, arrowstyle='-|>',
                    minlength=0.1, transform=None, zorder=None,
@@ -4716,7 +4717,7 @@ or tuple of floats
         return patches
 
     @_preprocess_data(replace_names=["x", "y1", "y2", "where"],
-                         label_namer=None)
+                      label_namer=None)
     @docstring.dedent_interpd
     def fill_between(self, x, y1, y2=0, where=None, interpolate=False,
                      step=None,
@@ -4885,7 +4886,7 @@ or tuple of floats
         return collection
 
     @_preprocess_data(replace_names=["y", "x1", "x2", "where"],
-                         label_namer=None)
+                      label_namer=None)
     @docstring.dedent_interpd
     def fill_betweenx(self, y, x1, x2=0, where=None,
                       step=None, interpolate=False, **kwargs):
@@ -6105,40 +6106,9 @@ or tuple of floats
         .. plot:: mpl_examples/statistics/histogram_demo_features.py
 
         """
-        def _normalize_input(inp, ename='input'):
-            """Normalize 1 or 2d input into list of np.ndarray or
-            a single 2D np.ndarray.
-
-            Parameters
-            ----------
-            inp : iterable
-            ename : str, optional
-                Name to use in ValueError if `inp` can not be normalized
-
-            """
-            if (isinstance(x, np.ndarray) or
-                    not iterable(cbook.safe_first_element(inp))):
-                # TODO: support masked arrays;
-                inp = np.asarray(inp)
-                if inp.ndim == 2:
-                    # 2-D input with columns as datasets; switch to rows
-                    inp = inp.T
-                elif inp.ndim == 1:
-                    # new view, single row
-                    inp = inp.reshape(1, inp.shape[0])
-                else:
-                    raise ValueError(
-                        "{ename} must be 1D or 2D".format(ename=ename))
-                if inp.shape[1] < inp.shape[0]:
-                    warnings.warn(
-                        '2D hist input should be nsamples x nvariables;\n '
-                        'this looks transposed '
-                        '(shape is %d x %d)' % inp.shape[::-1])
-            else:
-                # multiple hist with data of different length
-                inp = [np.asarray(xi) for xi in inp]
-
-            return inp
+        # Avoid shadowing the builtin.
+        bin_range = range
+        del range
 
         if not self._hold:
             self.cla()
@@ -6148,13 +6118,6 @@ or tuple of floats
 
         if bins is None:
             bins = rcParams['hist.bins']
-
-        # xrange becomes range after 2to3
-        bin_range = range
-        range = __builtins__["range"]
-
-        # NOTE: the range keyword overwrites the built-in func range !!!
-        #       needs to be fixed in numpy                           !!!
 
         # Validate string inputs here so we don't have to clutter
         # subsequent code.
@@ -6181,20 +6144,18 @@ or tuple of floats
         binsgiven = (cbook.iterable(bins) or bin_range is not None)
 
         # basic input validation
-        flat = np.ravel(x)
-
-        input_empty = len(flat) == 0
+        input_empty = np.size(x) == 0
 
         # Massage 'x' for processing.
         if input_empty:
             x = np.array([[]])
         else:
-            x = _normalize_input(x, 'x')
+            x = cbook._reshape_2D(x, 'x')
         nx = len(x)  # number of datasets
 
         # We need to do to 'weights' what was done to 'x'
         if weights is not None:
-            w = _normalize_input(weights, 'weights')
+            w = cbook._reshape_2D(weights, 'weights')
         else:
             w = [None]*nx
 
@@ -6516,10 +6477,7 @@ or tuple of floats
         .. plot:: mpl_examples/statistics/plot_hist.py
         """
 
-        # xrange becomes range after 2to3
-        bin_range = range
-        range = __builtins__["range"]
-        h, xedges, yedges = np.histogram2d(x, y, bins=bins, range=bin_range,
+        h, xedges, yedges = np.histogram2d(x, y, bins=bins, range=range,
                                            normed=normed, weights=weights)
 
         if cmin is not None:
