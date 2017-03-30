@@ -421,3 +421,17 @@ def test_font_scaling():
 
     for i, fs in enumerate(range(4, 43, 2)):
         ax.text(0.1, i*30, "{fs} pt font size".format(fs=fs), fontsize=fs)
+
+
+@image_comparison(baseline_images=['multi_instance1'],
+                  extensions=['png'])
+def test_multi_instance_smallerLineSpacing():
+    plt.text(.5, .5, 'line1\nline2', linespacing = 2, alpha = 0.5)
+    plt.text(.5, .5, 'line1\nline2', linespacing = 0.4, alpha = 0.5)
+
+
+@image_comparison(baseline_images=['multi_instance2'],
+                  extensions=['png'])
+def test_multi_instance_greaterLineSpacing():
+    plt.text(.5, .5, 'line1\nline2', linespacing = 0.4, alpha = 0.5)
+    plt.text(.5, .5, 'line1\nline2', linespacing = 2, alpha = 0.5)
