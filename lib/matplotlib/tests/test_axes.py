@@ -5072,6 +5072,20 @@ def test_datetime_axvline_same_axes():
     assert (axs[0].get_ylim() == axs[1].get_ylim())
 
 
+def test_twinx_knows_limits():
+    fig, ax = plt.subplots()
+
+    ax.axvspan(1, 2)
+    xtwin = ax.twinx()
+    xtwin.plot([0, 0.5], [1, 2])
+    # control axis
+    fig2, ax2 = plt.subplots()
+
+    ax2.axvspan(1, 2)
+    ax2.plot([0, 0.5], [1, 2])
+
+    assert(xtwin.viewLim == ax2.viewLim)
+
 def test_invalid_axis_limits():
     plt.plot([0, 1], [0, 1])
     with pytest.raises(ValueError):
@@ -5093,3 +5107,17 @@ def test_minorticks_on(xscale, yscale):
     ax.set_xscale(xscale)
     ax.set_yscale(yscale)
     ax.minorticks_on()
+
+def test_twinx_knows_limits():
+        fig, ax = plt.subplots()
+    
+        ax.axvspan(1, 2)
+        xtwin = ax.twinx()
+        xtwin.plot([0, 0.5], [1, 2])
+        # control axis
+        fig2, ax2 = plt.subplots()
+    
+        ax2.axvspan(1, 2)
+        ax2.plot([0, 0.5], [1, 2])
+    
+        assert((xtwin.viewLim.intervalx == ax2.viewLim.intervalx).all())
